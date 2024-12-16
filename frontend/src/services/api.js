@@ -27,3 +27,8 @@ export const sendContact = async (contactData) => {
   const response = await axios.post(`${API_BASE_URL}/contact`, contactData);
   return response.data;
 };
+
+export const createPaymentIntent = async (donationData) => {
+  const response = await axios.post(`${API_BASE_URL}/donations/create-payment-intent`, donationData);
+  return response.data;
+};
