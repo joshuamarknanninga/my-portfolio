@@ -18,6 +18,12 @@ const HeaderComponent = () => (
       <Menu.Item as={Link} to="/contact">
         Contact
       </Menu.Item>
+      <Menu.Item as={Link} to="/donations">
+        Donations
+      </Menu.Item>
+      <Menu.Item as={Link} to="/products">
+        Store
+      </Menu.Item>
       {/* Add social links or dropdowns if needed */}
     </Container>
   </Menu>

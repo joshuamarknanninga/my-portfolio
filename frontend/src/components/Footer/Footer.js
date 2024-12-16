@@ -1,7 +1,8 @@
 // frontend/src/components/Footer/Footer.js
 import React from 'react';
-import { Container, Icon } from 'semantic-ui-react';
+import { Container, Icon, Button } from 'semantic-ui-react';
 import BuyMeACoffeeButton from '../components/Donations/BuyMeACoffeeButton';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <footer style={{ padding: '2em 0', backgroundColor: '#f1f1f1', marginTop: '2em' }}>
@@ -15,6 +16,9 @@ const Footer = () => (
       <div style={{ marginTop: '1em' }}>
         <BuyMeACoffeeButton />
       </div>
+      <Button as={Link} to="/products" basic color="black" style={{ marginTop: '1em' }}>
+        Visit Our Store
+      </Button>
       <p>&copy; {new Date().getFullYear()} My Portfolio. All rights reserved.</p>
     </Container>
   </footer>
