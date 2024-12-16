@@ -9,6 +9,7 @@ const gptRoutes = require('./routes/gptRoutes');
 const donationRoutes = require('./routes/donationRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const authRoutes = require('./routes/authRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use('/api/gpts', gptRoutes);
 app.use('/api/donations', donationRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error Handling Middleware
 app.use(errorHandler);
