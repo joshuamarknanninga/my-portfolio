@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const blogRoutes = require('./routes/blogRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const gptRoutes = require('./routes/gptRoutes');
+const donationRoutes = require('./routes/donationRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -22,10 +23,12 @@ app.use(express.json());
 app.use('/api/blogs', blogRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/gpts', gptRoutes);
+app.use('/api/donations', donationRoutes);
 
 // Error Handling Middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
+// Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
