@@ -11,8 +11,12 @@ const { protect, admin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Public routes
+// Protected routes: Only admin can create, update, delete
 router.route('/').get(getProducts).post(protect, admin, createProduct);
-router.route('/:id').get(getProduct).put(protect, admin, updateProduct).delete(protect, admin, deleteProduct);
+router
+  .route('/:id')
+  .get(getProduct)
+  .put(protect, admin, updateProduct)
+  .delete(protect, admin, deleteProduct);
 
 module.exports = router;
