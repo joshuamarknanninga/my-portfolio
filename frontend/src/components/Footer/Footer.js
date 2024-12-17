@@ -1,7 +1,7 @@
 // frontend/src/components/Footer/Footer.js
 import React from 'react';
 import { Container, Icon, Button } from 'semantic-ui-react';
-import BuyMeACoffeeButton from '../components/Donations/BuyMeACoffeeButton';
+import BuyMeACoffeeButton from '../Donations/BuyMeACoffeeButton';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
