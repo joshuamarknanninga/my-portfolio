@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler');
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Public
-exports.getProducts = asyncHandler(async (req, res) => {
+const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find().sort({ createdAt: -1 });
   res.json(products);
 });
@@ -13,7 +13,7 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @desc    Get single product
 // @route   GET /api/products/:id
 // @access  Public
-exports.getProduct = asyncHandler(async (req, res) => {
+const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   
   if (!product) {
@@ -27,7 +27,7 @@ exports.getProduct = asyncHandler(async (req, res) => {
 // @desc    Create a new product
 // @route   POST /api/products
 // @access  Private/Admin
-exports.createProduct = asyncHandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res) => {
   const { title, description, category, imageUrl, price, fileUrl } = req.body;
 
   const product = new Product({
@@ -46,7 +46,7 @@ exports.createProduct = asyncHandler(async (req, res) => {
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
-exports.updateProduct = asyncHandler(async (req, res) => {
+const updateProduct = asyncHandler(async (req, res) => {
   const { title, description, category, imageUrl, price, fileUrl } = req.body;
 
   const product = await Product.findById(req.params.id);
@@ -70,16 +70,8 @@ exports.updateProduct = asyncHandler(async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
-exports.deleteProduct = asyncHandler(async (req, res) => {
+const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-
-  module.exports = {
-    getProducts,
-    getProduct,
-    createProduct,
-    updateProduct,
-    deleteProduct,
-  };
 
   if (!product) {
     res.status(404);
@@ -89,3 +81,11 @@ exports.deleteProduct = asyncHandler(async (req, res) => {
   await product.remove();
   res.json({ message: 'Product removed' });
 });
+
+module.exports = {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
