@@ -2,21 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { fetchGPTById, deleteGPT } from '../services/api';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Header, Image, Button, Message, Confirm } from 'semantic-ui-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const GPTDetailPage = () => {
   const { id } = useParams();
-  const history = useHistory();
-  
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   const [gpt, setGPT] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleteError, setDeleteError] = useState('');
-  
-  // For admin functionalities (optional)
-  const [admin, setAdmin] = useState(false); // Implement admin check as needed
 
   useEffect(() => {
     const getGPT = async () => {
@@ -25,7 +24,7 @@ const GPTDetailPage = () => {
         setGPT(data);
         setLoading(false);
       } catch (err) {
-        setError(err.message || 'Failed to fetch GPT details');
+        setError(err.response?.data?.message || 'Failed to fetch GPT details');
         setLoading(false);
       }
     };
@@ -36,9 +35,9 @@ const GPTDetailPage = () => {
   const handleDelete = async () => {
     try {
       await deleteGPT(id);
-      history.push('/gpts');
+      navigate('/gpts');
     } catch (err) {
-      setDeleteError(err.message || 'Failed to delete GPT');
+      setDeleteError(err.response?.data?.message || 'Failed to delete GPT');
     }
   };
 
@@ -52,7 +51,7 @@ const GPTDetailPage = () => {
       {gpt.imageUrl && <Image src={gpt.imageUrl} size="large" bordered />}
       <p style={{ marginTop: '1em' }}>{gpt.description}</p>
       
-      {admin && (
+      {user && user.isAdmin && (
         <>
           <Button as={Link} to={`/gpts/${id}/edit`} primary>
             Edit

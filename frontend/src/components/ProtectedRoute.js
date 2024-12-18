@@ -1,33 +1,26 @@
 // frontend/src/components/ProtectedRoute.js
 
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Loader } from 'semantic-ui-react';
 
-const ProtectedRoute = ({ component: Component, adminOnly, ...rest }) => {
+const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
     return <Loader active inline="centered" />;
   }
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        user ? (
-          adminOnly && !user.isAdmin ? (
-            <Redirect to="/" />
-          ) : (
-            <Component {...props} />
-          )
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
-    />
-  );
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (adminOnly && !user.isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
