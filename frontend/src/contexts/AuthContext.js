@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check for user in localStorage or via an API call
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('user'); // Ensure 'storedUser' is defined
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }

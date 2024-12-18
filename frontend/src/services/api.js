@@ -21,6 +21,11 @@ export const fetchBlogs = async () => {
   return response.data;
 };
 
+export const fetchBlogById = async (id) => {
+  const response = await axios.get(`${API_BASE_URL}/blogs/${id}`);
+  return response.data;
+};
+
 // Contact APIs
 export const sendContact = async (contactData) => {
   const response = await axios.post(`${API_BASE_URL}/contact`, contactData);

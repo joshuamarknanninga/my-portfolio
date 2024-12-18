@@ -1,12 +1,12 @@
 // frontend/src/components/Header/Header.js
 
 import React from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import { Menu, Container } from 'semantic-ui-react';
 import { NavLink, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 
 const HeaderComponent = () => {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth(); // Destructure 'user' and 'logout'
 
   return (
     <Menu fixed="top" inverted>
@@ -46,5 +46,8 @@ const HeaderComponent = () => {
     </Menu>
   );
 };
+
+// Add at the top of HeaderComponent
+console.log('HeaderComponent - user:', user);
 
 export default HeaderComponent;
