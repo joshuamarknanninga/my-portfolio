@@ -6,13 +6,17 @@ import { Card, Loader, Message, Button } from 'semantic-ui-react';
 import GPTCard from './GPTCard';
 import { Link } from 'react-router-dom';
 
+// Import authentication context or hooks as needed
+// Example: import { useAuth } from '../../contexts/AuthContext';
+
 const GPTList = () => {
   const [gpts, setGpts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  // For admin functionalities (optional)
-  const [admin, setAdmin] = useState(false); // Implement admin check as needed
+  // Example: Get admin status from auth context
+  // const { user } = useAuth();
+  const [admin, setAdmin] = useState(false); // Replace with actual admin check
 
   useEffect(() => {
     const getGPTs = async () => {
@@ -27,7 +31,11 @@ const GPTList = () => {
     };
 
     getGPTs();
-  }, []);
+
+    // Example: Set admin status based on user role
+    // if (user && user.isAdmin) setAdmin(true);
+    // else setAdmin(false);
+  }, []); // Add dependencies as needed
 
   if (loading) return <Loader active inline="centered" />;
 

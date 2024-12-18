@@ -1,3 +1,5 @@
+// backend/models/GPT.js
+
 const mongoose = require('mongoose');
 
 const gptSchema = mongoose.Schema(
@@ -9,6 +11,10 @@ const gptSchema = mongoose.Schema(
     description: {
       type: String,
       required: true,
+    },
+    imageUrl: {
+      type: String,
+      default: '',
     },
   },
   {

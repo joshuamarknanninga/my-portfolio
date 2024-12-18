@@ -1,4 +1,6 @@
-const GPT = require('../models/GPT'); // Ensure you have a GPT model
+// backend/controllers/gptController.js
+
+const GPT = require('../models/GPT');
 const asyncHandler = require('express-async-handler');
 
 // @desc    Get all GPTs
@@ -27,11 +29,17 @@ const getGPT = asyncHandler(async (req, res) => {
 // @route   POST /api/gpts
 // @access  Private/Admin
 const createGPT = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, imageUrl } = req.body;
+
+  if (!title || !description) {
+    res.status(400);
+    throw new Error('Please provide title and description');
+  }
 
   const gpt = new GPT({
     title,
     description,
+    imageUrl: imageUrl || '',
   });
 
   const createdGPT = await gpt.save();
@@ -42,7 +50,7 @@ const createGPT = asyncHandler(async (req, res) => {
 // @route   PUT /api/gpts/:id
 // @access  Private/Admin
 const updateGPT = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, imageUrl } = req.body;
 
   const gpt = await GPT.findById(req.params.id);
 
@@ -53,6 +61,7 @@ const updateGPT = asyncHandler(async (req, res) => {
 
   gpt.title = title || gpt.title;
   gpt.description = description || gpt.description;
+  gpt.imageUrl = imageUrl !== undefined ? imageUrl : gpt.imageUrl;
 
   const updatedGPT = await gpt.save();
   res.json(updatedGPT);
