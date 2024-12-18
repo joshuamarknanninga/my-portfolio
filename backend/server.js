@@ -1,15 +1,14 @@
-// backend/server.js
 const express = require('express');
-const cors = require('cors');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const connectDB = require('./config/db');
+
 const blogRoutes = require('./routes/blogRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const gptRoutes = require('./routes/gptRoutes');
-const donationRoutes = require('./routes/donationRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes'); // If implementing authentication
 const { errorHandler } = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -26,15 +25,13 @@ app.use(express.json());
 app.use('/api/blogs', blogRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/gpts', gptRoutes);
-app.use('/api/donations', donationRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); // If implementing authentication
 
 // Error Handling Middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 
-// Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

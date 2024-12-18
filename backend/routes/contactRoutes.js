@@ -1,9 +1,11 @@
-// backend/routes/contactRoutes.js
 const express = require('express');
-const { createContact } = require('../controllers/contactController');
+const { sendContact } = require('../controllers/contactController');
 
 const router = express.Router();
 
-router.route('/').post(createContact);
+// @route   POST /api/contact
+// @desc    Send contact form data
+// @access  Public
+router.post('/', sendContact);
 
 module.exports = router;

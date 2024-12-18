@@ -1,19 +1,21 @@
-// backend/models/GPT.js
 const mongoose = require('mongoose');
 
-const GPTSchema = new mongoose.Schema(
+const gptSchema = mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
-      required: [true, 'Please add a name for the GPT'],
+      required: true,
     },
     description: {
       type: String,
-      required: [true, 'Please add a description'],
+      required: true,
     },
-    // Add more fields like image, link, etc.
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = mongoose.model('GPT', GPTSchema);
+const GPT = mongoose.model('GPT', gptSchema);
+
+module.exports = GPT;

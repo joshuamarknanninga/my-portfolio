@@ -15,6 +15,24 @@ export const fetchProductById = async (id) => {
   return response.data;
 };
 
+// Blog APIs
+export const fetchBlogs = async () => {
+  const response = await axios.get(`${API_BASE_URL}/blogs`);
+  return response.data;
+};
+
+// Contact APIs
+export const sendContact = async (contactData) => {
+  const response = await axios.post(`${API_BASE_URL}/contact`, contactData);
+  return response.data;
+};
+
+// GPT APIs
+export const fetchGPTs = async () => {
+  const response = await axios.get(`${API_BASE_URL}/gpts`);
+  return response.data;
+};
+
 // Order APIs
 export const createPaymentIntent = async (orderData) => {
   const response = await axios.post(`${API_BASE_URL}/orders/create-payment-intent`, orderData);
@@ -26,7 +44,7 @@ export const fetchOrderById = async (id) => {
   return response.data;
 };
 
-// Authentication APIs (if implemented)
+// Authentication APIs
 export const registerUser = async (userData) => {
   const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
   return response.data;

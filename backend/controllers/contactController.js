@@ -1,18 +1,27 @@
-// backend/controllers/contactController.js
-const Contact = require('../models/Contact');
+const asyncHandler = require('express-async-handler');
 
-// @desc    Create a contact message
+// @desc    Handle contact form submission
 // @route   POST /api/contact
 // @access  Public
-exports.createContact = async (req, res, next) => {
-  try {
-    const { name, email, message } = req.body;
-    const contact = new Contact({ name, email, message });
-    const savedContact = await contact.save();
-    res.status(201).json(savedContact);
-  } catch (error) {
-    next(error);
-  }
-};
+const sendContact = asyncHandler(async (req, res) => {
+  const { name, email, message } = req.body;
 
-// You can add admin routes to get contact messages
+  if (!name || !email || !message) {
+    res.status(400);
+    throw new Error('Please provide all required fields');
+  }
+
+  // Implement email sending or database storage here
+  // For demonstration, we'll just return the data
+
+  res.status(201).json({
+    success: true,
+    data: {
+      name,
+      email,
+      message,
+    },
+  });
+});
+
+module.exports = { sendContact };
