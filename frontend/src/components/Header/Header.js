@@ -1,43 +1,65 @@
 // frontend/src/components/Header/Header.js
 
 import React from 'react';
+import { Menu, Container, Loader } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Menu, Container } from 'semantic-ui-react';
-import { NavLink, Link } from 'react-router-dom';
 
 const HeaderComponent = () => {
-  const { user, logout } = useAuth(); // Destructure 'user' and 'logout'
+  const { user, loading, logout } = useAuth();
+
+  if (loading) {
+    return (
+      <Menu fixed="top" inverted>
+        <Container>
+          <Menu.Item header>My Portfolio</Menu.Item>
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Loader active inline="centered" size="small" />
+            </Menu.Item>
+          </Menu.Menu>
+        </Container>
+      </Menu>
+    );
+  }
 
   return (
     <Menu fixed="top" inverted>
       <Container>
-        <Menu.Item as={NavLink} exact="true" to="/" header>
+        <Menu.Item as={Link} to="/" header>
           My Portfolio
         </Menu.Item>
-        <Menu.Item as={NavLink} to="/blogs">
-          Blogs
-        </Menu.Item>
-        <Menu.Item as={NavLink} to="/gpts">
+
+        {/* Visible to all users */}
+        <Menu.Item as={Link} to="/gpts">
           GPT Showcase
         </Menu.Item>
-        <Menu.Item as={NavLink} to="/products">
-          Products
+        <Menu.Item as={Link} to="/blogs">
+          Blogs
         </Menu.Item>
-        <Menu.Item as={NavLink} to="/contact">
+        <Menu.Item as={Link} to="/contact">
           Contact
         </Menu.Item>
+        <Menu.Item as={Link} to="/products">
+          Products
+        </Menu.Item>
+
+        {/* Right Menu */}
         <Menu.Menu position="right">
           {user ? (
             <>
-              <Menu.Item as={NavLink} to="/donations">
-                Donate
-              </Menu.Item>
+              {/* Admin-only Menu Items */}
+              {user.isAdmin && (
+                <Menu.Item as={Link} to="/gpts/new">
+                  Create GPT
+                </Menu.Item>
+              )}
               <Menu.Item onClick={logout}>
-                Logout
+                Logout ({user.name})
               </Menu.Item>
             </>
           ) : (
-            <Menu.Item as={NavLink} to="/login">
+            <Menu.Item as={Link} to="/login">
               Login
             </Menu.Item>
           )}
@@ -46,8 +68,5 @@ const HeaderComponent = () => {
     </Menu>
   );
 };
-
-// Add at the top of HeaderComponent
-console.log('HeaderComponent - user:', user);
 
 export default HeaderComponent;

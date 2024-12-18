@@ -1,45 +1,40 @@
 // backend/controllers/gptController.js
 
-const GPT = require('../models/GPT');
 const asyncHandler = require('express-async-handler');
+const GPT = require('../models/gptModel');
 
 // @desc    Get all GPTs
 // @route   GET /api/gpts
 // @access  Public
 const getGPTs = asyncHandler(async (req, res) => {
-  const gpts = await GPT.find().sort({ createdAt: -1 });
+  const gpts = await GPT.find({});
   res.json(gpts);
 });
 
-// @desc    Get single GPT
+// @desc    Get single GPT by ID
 // @route   GET /api/gpts/:id
 // @access  Public
-const getGPT = asyncHandler(async (req, res) => {
+const getGPTById = asyncHandler(async (req, res) => {
   const gpt = await GPT.findById(req.params.id);
-
-  if (!gpt) {
+  if (gpt) {
+    res.json(gpt);
+  } else {
     res.status(404);
     throw new Error('GPT not found');
   }
-
-  res.json(gpt);
 });
 
-// @desc    Create a new GPT
+// @desc    Create a GPT
 // @route   POST /api/gpts
 // @access  Private/Admin
 const createGPT = asyncHandler(async (req, res) => {
-  const { title, description, imageUrl } = req.body;
-
-  if (!title || !description) {
-    res.status(400);
-    throw new Error('Please provide title and description');
-  }
+  const { name, description, imageUrl, externalUrl } = req.body;
 
   const gpt = new GPT({
-    title,
+    name,
     description,
-    imageUrl: imageUrl || '',
+    imageUrl,
+    externalUrl,
   });
 
   const createdGPT = await gpt.save();
@@ -50,21 +45,22 @@ const createGPT = asyncHandler(async (req, res) => {
 // @route   PUT /api/gpts/:id
 // @access  Private/Admin
 const updateGPT = asyncHandler(async (req, res) => {
-  const { title, description, imageUrl } = req.body;
+  const { name, description, imageUrl, externalUrl } = req.body;
 
   const gpt = await GPT.findById(req.params.id);
 
-  if (!gpt) {
+  if (gpt) {
+    gpt.name = name || gpt.name;
+    gpt.description = description || gpt.description;
+    gpt.imageUrl = imageUrl || gpt.imageUrl;
+    gpt.externalUrl = externalUrl || gpt.externalUrl;
+
+    const updatedGPT = await gpt.save();
+    res.json(updatedGPT);
+  } else {
     res.status(404);
     throw new Error('GPT not found');
   }
-
-  gpt.title = title || gpt.title;
-  gpt.description = description || gpt.description;
-  gpt.imageUrl = imageUrl !== undefined ? imageUrl : gpt.imageUrl;
-
-  const updatedGPT = await gpt.save();
-  res.json(updatedGPT);
 });
 
 // @desc    Delete a GPT
@@ -73,18 +69,18 @@ const updateGPT = asyncHandler(async (req, res) => {
 const deleteGPT = asyncHandler(async (req, res) => {
   const gpt = await GPT.findById(req.params.id);
 
-  if (!gpt) {
+  if (gpt) {
+    await gpt.remove();
+    res.json({ message: 'GPT removed' });
+  } else {
     res.status(404);
     throw new Error('GPT not found');
   }
-
-  await gpt.remove();
-  res.json({ message: 'GPT removed' });
 });
 
 module.exports = {
   getGPTs,
-  getGPT,
+  getGPTById,
   createGPT,
   updateGPT,
   deleteGPT,
