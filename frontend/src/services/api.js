@@ -33,6 +33,34 @@ export const fetchGPTs = async () => {
   return response.data;
 };
 
+export const fetchGPTById = async (id) => {
+  const response = await axios.get(`${API_BASE_URL}/gpts/${id}`);
+  return response.data;
+};
+
+export const createGPT = async (gptData) => {
+  const response = await axios.post(`${API_BASE_URL}/gpts`, gptData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};
+
+export const updateGPT = async (id, gptData) => {
+  const response = await axios.put(`${API_BASE_URL}/gpts/${id}`, gptData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};
+
+export const deleteGPT = async (id) => {
+  const response = await axios.delete(`${API_BASE_URL}/gpts/${id}`);
+  return response.data;
+};
+
 // Order APIs
 export const createPaymentIntent = async (orderData) => {
   const response = await axios.post(`${API_BASE_URL}/orders/create-payment-intent`, orderData);
